@@ -6,8 +6,10 @@ public class Main {
     public static void main(String[] args) {
         int pub;
         Subscriber subscriber = new Subscriber();
-        Thread sub= new Thread(subscriber);
-        sub.start();
+        for(int i=0; i<10; i++){
+            Thread sub= new Thread(subscriber);
+            sub.start();
+        }
 
         while(true){
             Scanner scanner = new Scanner(System.in);
@@ -17,7 +19,10 @@ public class Main {
                 Publisher.Publisher(pub);
             } else {
                 System.out.println("0 is end");
-                sub.stop();
+                for(int i=0; i<10; i++) {
+                    Thread sub= new Thread(subscriber);
+                    sub.stop();
+                }
                 break;
             }
         }

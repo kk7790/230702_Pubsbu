@@ -1,17 +1,30 @@
 package org.example;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Publisher {
-    private static int pubQueue;
-    public synchronized void Publisher(int message) {
-        pubQueue = message;
-        Topic topic = new Topic();
-        Runnable run = topic;
-        Thread topicWorker= new Thread(run);
-        topicWorker.start();
+    private static Queue<Integer> pubQueue;
+    public void Publisher(int message) {
+        int getValue = message;
+        if(pubQueue == null){
+            pubQueue = new LinkedList<>();
+        }
+        for(int i = 1; i <= getValue; i++){
+            synchronized (pubQueue){
+                pubQueue.add(i);
+                System.out.println(i+"저장!");
+            }
+        }
+        getPub();
     }
 
-    public static int getPub(){
-        return pubQueue;
+    public static void getPub(){
+        for(int j=pubQueue.size(); j>0; j--){
+            synchronized (pubQueue){
+                Topic.Topic(pubQueue.poll());
+            }
+        }
     }
 }
 
